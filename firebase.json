@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "dist/weplot-diagnosis",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

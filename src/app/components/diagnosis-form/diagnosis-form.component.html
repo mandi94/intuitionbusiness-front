@@ -1,0 +1,293 @@
+<div id="diagnosis-background"></div>
+
+<div id="diagnosis-container">
+  <div class="container">
+    <div class="header-content row">
+        <div class="header-desc ">
+            <div class="header-desc-content row">
+              <div class="col-md-3 header-image ">
+                <a class="logo-image" ><img src="../../../assets/images/weplot_cor_horizontal.webp" alt="alternative"></a>          
+              </div>
+              <div class="col-md-8 header-title">
+                <h2><span style="color: black;">|</span> Autodiagnostico</h2>             
+              </div>
+            </div>
+        </div>
+        
+        <div class="stepper-form-content ">
+  
+            <div id="stepProgressBar">
+              <div class="step selected" (click)="changeStep('authorship',stepper)">
+                <p class="step-text">Autoria</p>
+                  <mat-icon  [ngClass]="{'selected-icon':autorShipSelect ,'editable-icon':autorShipEditable}">trip_origin</mat-icon>
+              </div>
+              <div class="stepper-line"></div>
+              <div class="step" (click)="changeStep('work',stepper)">
+                <p class="step-text">La Obra</p>
+                <mat-icon [ngClass]="{'selected-icon':workSelect ,'editable-icon':workEditable}"> trip_origin</mat-icon>
+              </div>
+              <div class="stepper-line"></div>
+              <div class="step" (click)="changeStep('experience',stepper)">
+                <p class="step-text">Experiencia</p>
+                <mat-icon [ngClass]="{'selected-icon':experienceSelect ,'editable-icon':experienceEditable}">trip_origin</mat-icon>
+                </div>
+            </div>
+          
+        </div>
+    </div>
+  </div>
+  
+  <form [formGroup]="formGroup" (ngSubmit)="onFormSubmit()" >
+    <mat-horizontal-stepper #stepper formArrayName="formArray" linear >
+      <mat-step formGroupName="0" [stepControl]="formArray?.get([0])" label="Autoria" state="phone">
+        <div class="row">
+          <div class="column-left" >
+            <h2>Sobre la Autoria</h2>
+            <br>
+            <div class="intern-row">
+              <div class="col-md-9 autoria-question" >
+                <p> </p>
+              </div>
+              <div class="col-md-3 autoria-slide" >
+                <p>No  |   Si</p>
+              </div>
+            </div>
+            <div class="intern-row" >
+              <div class="col-md-9 autoria-question"  >
+                <p>{{authorshipQuestionOne.description}}</p>
+              </div>
+              <div class="col-md-3 autoria-slide" >
+                <mat-slide-toggle formControlName="authorshipOne" (change)="updateWorkForm($event)"> </mat-slide-toggle>  
+              </div>
+            </div> 
+            <div class="intern-row" >
+              <div class="col-md-9 autoria-question"  >
+                <p>{{authorshipQuestionTwo.description}}</p>
+              </div>
+              <div class="col-md-3 autoria-slide" >
+                <mat-slide-toggle formControlName="authorshipTwo" (change)="updateWorkForm($event)"></mat-slide-toggle>  
+              </div>
+            </div> 
+            <div class="intern-row" >
+              <div class="col-md-9 autoria-question"  >
+                <p>{{authorshipQuestionThree.description}}</p>
+              </div>
+              <div class="col-md-3 autoria-slide" >
+                <mat-slide-toggle formControlName="authorshipThree" (change)="updateWorkForm($event)"></mat-slide-toggle>  
+              </div>
+            </div> 
+            <div>
+              <p>
+                <a>WePlot</a> tiene como valor siempre respetar la cadena de derechos
+                autorales. Si no eres ni el autor ni el representante legal de la historia, ten
+                en cuenta que te vamos solicitar estos datos para seguir, y que solo uno
+                de ellos podrá aceptar los términos legales. Si tu eres el autor o el
+                representante legal, sigue adelante y Bienvenido a WePlot!
+              </p>
+            </div>
+          </div>
+          <div class="column-right" [ngClass]="{'disabled':workDisabled}" >
+            <h2>Sobre la Obra</h2>
+            <div>
+              <mat-form-field  appearance="outline">
+                <mat-label>{{workQuestionOne.description}}</mat-label>
+                <input matInput formControlName="workOneCtrl" required >
+                <mat-error>Entrada no válida.</mat-error>
+              </mat-form-field> 
+            </div>
+            <div>
+              <p>Ese será tu Punto de Partida</p>
+              <mat-radio-group >{{workQuestionTwo.description}}
+                <br>
+                <mat-radio-button *ngFor="let option of workQuestionTwo.option" value="workQuestionTwo.id" class="col-md-6">{{option}}</mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <div>
+              <p>Ese será tu Punto de Llegada</p>
+              <mat-radio-group >{{workQuestionThree.description}}
+                <br>
+                <mat-radio-button *ngFor="let option of workQuestionTwo.option" value="workQuestionTwo.id" class="col-md-6">{{option}}</mat-radio-button>
+              </mat-radio-group>
+            </div>
+  
+            <div>
+              <br>
+              <p>
+                Te ayudaremos a planificar tu ruta. Es muy importante que sepas que llegar hasta un tomador de decisión de la industria
+                audiovisual no es tarea fácil ni rápida. Si ya tienes experiencia, lo sabes. Si no la tienes, es importante que sepas que el nivel es
+                muy alto y la competencia es enorme. Por eso tienes que comprometerte en el desarrollo y transformación de tu historia,
+                para que ella alcance un nivel optimo de presentación. Pedimos que contestes las próximas preguntas de la forma más
+                sincera y práctica posible, pues eso nos hará ahorrar tiempo en el futuro.
+              </p>
+            </div>
+            <div class="buttons-div row">
+              <div class="col-md-9"></div>
+              <div class="col-md-3">
+                <button mat-raised-button matStepperNext color="primary">Siguiente</button>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+      </mat-step>
+  
+
+      <mat-step label="Experiencia">
+        <div class="row">
+          <div class="column-left">
+            <h2>Sobre la Experiencia</h2>
+            <br>
+            <div class="intern-row">
+              <div class="col-md-9 autoria-question" >
+                <p> </p>
+              </div> 
+              <div class="col-md-3 autoria-slide" >
+                <p>No  |   Si</p>
+              </div>
+            </div>
+            <div>
+              <div class="intern-row">
+                <div class="col-md-9 autoria-question" >
+                  <p>{{experienceQuestionOne.description}}</p>
+                </div>
+                <div class="col-md-3 autoria-slide" >
+                  <mat-slide-toggle ></mat-slide-toggle>  
+                </div>   
+              </div>
+              <div class="intern-row">
+                <div class="col-md-9 autoria-question" >
+                  <p>{{experienceQuestionTwo.description}}</p>
+                </div>
+                <div class="col-md-3 autoria-slide" >
+                  <mat-slide-toggle ></mat-slide-toggle>  
+                </div>   
+              </div>
+              <div>
+                <div>
+                  <p>
+                    {{experienceQuestionThree.description}}
+                  </p>
+                </div>
+                <div>
+                  <mat-slider thumbLabel tickInterval="1" min="1" max="5"></mat-slider>
+                </div>
+              </div>
+              <div>
+                <div>
+                  <p>
+                    {{experienceQuestionFour.description}}
+                  </p>
+                </div>
+                <div>
+                  <mat-slider thumbLabel tickInterval="1" min="1" max="5"></mat-slider>
+                </div>
+              </div>
+              <div>
+                <div>
+                  <p>
+                    {{experienceQuestionFive.description}}
+                  </p>
+                </div>
+                <mat-form-field appearance="outline">
+                  <mat-label>Elije una opción</mat-label>
+                  <mat-select [formControl]="strengthsChipControl" multiple>
+                    <mat-select-trigger>
+                      <mat-chip-list>
+                        <mat-chip *ngFor="let option of strengthsChipControl.value"
+                          [removable]="true" (removed)="onStrengthsRemoved(option)">
+                          {{ option }}
+                          <mat-icon matChipRemove>cancel</mat-icon>
+                        </mat-chip>
+                      </mat-chip-list>
+                    </mat-select-trigger>
+                    <mat-option *ngFor="let option of experienceQuestionFive.option" [value]="option">{{option}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div>
+                <div>
+                  <p>
+                    {{experienceQuestionFive.description}}
+                  </p>
+                </div>
+                <mat-form-field appearance="outline">
+                  <mat-label>Elije una opción</mat-label>
+                  <mat-select [formControl]="weaknessesChipControl" multiple>
+                    <mat-select-trigger>
+                      <mat-chip-list>
+                        <mat-chip *ngFor="let option of weaknessesChipControl.value"
+                          [removable]="true" 
+                          (removed)="onWeaknessesRemoved(option)">
+                          {{ option }}
+                          <mat-icon matChipRemove>cancel</mat-icon>
+                        </mat-chip>
+                      </mat-chip-list>
+                    </mat-select-trigger>
+                    <mat-option *ngFor="let option of experienceQuestionSix.option" [value]="option">{{option}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="intern-row">
+                <div class="col-md-9 autoria-question" >
+                  <p>{{experienceQuestionSeven.description}}</p>
+                </div>
+                <div class="col-md-3 autoria-slide" >
+                  <mat-slide-toggle ></mat-slide-toggle>  
+                </div>   
+              </div>
+              <mat-form-field  appearance="outline">
+                <mat-label>{{experienceQuestionEight.description}}</mat-label>
+                <input matInput>
+                <mat-error>Entrada no válida..</mat-error>
+              </mat-form-field> 
+            </div>           
+            
+          </div>
+          <div class="column-right" >        
+            <div>
+              <div >
+                <p>{{experienceQuestionNine.description}}</p>
+                <mat-button-toggle-group>
+                  <mat-button-toggle *ngFor="let option of experienceQuestionNine.option"  value="experienceQuestionNine.id" >{{option}}</mat-button-toggle>
+                </mat-button-toggle-group>
+              </div>
+              <div >
+                <br>
+                <p>{{experienceQuestionTen.description}}</p>
+                <br>
+                <div class="row">
+                  <mat-checkbox *ngFor="let option of experienceQuestionTen.option"  value="experienceQuestionTen.id" class="col-md-6" >{{option}} </mat-checkbox>
+                </div>
+              </div>
+             
+  
+            </div> 
+            <div>
+              <br>  
+              <p>
+                Si notaste falta de algún servicio, déjanoslo saber haciendo clic aquí.
+              </p>
+              <p>
+                WePlot quiere que tu ruta sea la más completa posible.
+              </p>
+            </div> 
+            <div>
+              <mat-checkbox >Aceptar Términos de Protección de Datos Personales (standard) </mat-checkbox>
+            </div>
+            <div class="buttons-div row">
+              <div class="col-md-8"></div>
+              <div class="col-md-2">
+                <button mat-raised-button matStepperPrevious color="primary">Anterior</button>
+              </div>
+              <div class="col-md-2">
+                <button mat-raised-button matStepperNext color="primary" type="submit">Enviar</button>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </form>
+</div>
+
