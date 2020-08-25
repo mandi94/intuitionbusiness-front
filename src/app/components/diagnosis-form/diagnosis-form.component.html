@@ -91,22 +91,24 @@
             <div>
               <mat-form-field  appearance="outline">
                 <mat-label>{{workQuestionOne.description}}</mat-label>
-                <input matInput formControlName="workOneCtrl" required >
+                <input matInput formControlName="workOneCtrl" (click)="changeStep('work',stepper)" required >
                 <mat-error>Entrada no válida.</mat-error>
               </mat-form-field> 
             </div>
             <div>
               <p>Ese será tu Punto de Partida</p>
-              <mat-radio-group >{{workQuestionTwo.description}}
+              <mat-radio-group formControlName="workTwoCtrl" >{{workQuestionTwo.description}}
                 <br>
-                <mat-radio-button *ngFor="let option of workQuestionTwo.option" value="workQuestionTwo.id" class="col-md-6">{{option}}</mat-radio-button>
+                <mat-radio-button *ngFor="let option of workQuestionTwo.option" [value]="option" class="col-md-6">{{option}}</mat-radio-button>
+                <!-- <mat-error>Debe seleccionar una opcion válida</mat-error> -->
               </mat-radio-group>
             </div>
             <div>
               <p>Ese será tu Punto de Llegada</p>
-              <mat-radio-group >{{workQuestionThree.description}}
+              <mat-radio-group formControlName="workThreeCtrl">{{workQuestionThree.description}}
                 <br>
-                <mat-radio-button *ngFor="let option of workQuestionTwo.option" value="workQuestionTwo.id" class="col-md-6">{{option}}</mat-radio-button>
+                <mat-radio-button *ngFor="let option of workQuestionThree.option" [value]="option" class="col-md-6">{{option}}</mat-radio-button>
+                <!-- <mat-error>Debe seleccionar una opcion válida</mat-error> -->
               </mat-radio-group>
             </div>
   
@@ -123,7 +125,7 @@
             <div class="buttons-div row">
               <div class="col-md-9"></div>
               <div class="col-md-3">
-                <button mat-raised-button matStepperNext color="primary">Siguiente</button>
+                <button mat-raised-button  color="primary" (click)="nextStep('experience',stepper)">Siguiente</button>
               </div>
             </div>
           </div>
@@ -132,7 +134,7 @@
       </mat-step>
   
 
-      <mat-step label="Experiencia">
+      <mat-step formGroupName="1" [stepControl]="formArray?.get([1])" label="Experiencia">
         <div class="row">
           <div class="column-left">
             <h2>Sobre la Experiencia</h2>
@@ -151,7 +153,7 @@
                   <p>{{experienceQuestionOne.description}}</p>
                 </div>
                 <div class="col-md-3 autoria-slide" >
-                  <mat-slide-toggle ></mat-slide-toggle>  
+                  <mat-slide-toggle formControlName="experienceOne" ></mat-slide-toggle>  
                 </div>   
               </div>
               <div class="intern-row">
@@ -159,7 +161,7 @@
                   <p>{{experienceQuestionTwo.description}}</p>
                 </div>
                 <div class="col-md-3 autoria-slide" >
-                  <mat-slide-toggle ></mat-slide-toggle>  
+                  <mat-slide-toggle formControlName="experienceTwo" ></mat-slide-toggle>  
                 </div>   
               </div>
               <div>
@@ -169,7 +171,7 @@
                   </p>
                 </div>
                 <div>
-                  <mat-slider thumbLabel tickInterval="1" min="1" max="5"></mat-slider>
+                  <mat-slider formControlName="experienceThree" thumbLabel tickInterval="1" min="0" max="5"></mat-slider>
                 </div>
               </div>
               <div>
@@ -179,7 +181,7 @@
                   </p>
                 </div>
                 <div>
-                  <mat-slider thumbLabel tickInterval="1" min="1" max="5"></mat-slider>
+                  <mat-slider formControlName="experienceFour" thumbLabel tickInterval="1" min="0" max="5" ></mat-slider>
                 </div>
               </div>
               <div>
@@ -207,7 +209,7 @@
               <div>
                 <div>
                   <p>
-                    {{experienceQuestionFive.description}}
+                    {{experienceQuestionSix.description}}
                   </p>
                 </div>
                 <mat-form-field appearance="outline">
@@ -232,12 +234,12 @@
                   <p>{{experienceQuestionSeven.description}}</p>
                 </div>
                 <div class="col-md-3 autoria-slide" >
-                  <mat-slide-toggle ></mat-slide-toggle>  
+                  <mat-slide-toggle  formControlName="experienceSeven" ></mat-slide-toggle>  
                 </div>   
               </div>
               <mat-form-field  appearance="outline">
                 <mat-label>{{experienceQuestionEight.description}}</mat-label>
-                <input matInput>
+                <input  formControlName="experienceEight" matInput>
                 <mat-error>Entrada no válida..</mat-error>
               </mat-form-field> 
             </div>           
@@ -247,8 +249,8 @@
             <div>
               <div >
                 <p>{{experienceQuestionNine.description}}</p>
-                <mat-button-toggle-group>
-                  <mat-button-toggle *ngFor="let option of experienceQuestionNine.option"  value="experienceQuestionNine.id" >{{option}}</mat-button-toggle>
+                <mat-button-toggle-group >
+                  <mat-button-toggle *ngFor="let option of experienceQuestionNine.option"  value="option" >{{option}}</mat-button-toggle>
                 </mat-button-toggle-group>
               </div>
               <div >
@@ -256,7 +258,12 @@
                 <p>{{experienceQuestionTen.description}}</p>
                 <br>
                 <div class="row">
-                  <mat-checkbox *ngFor="let option of experienceQuestionTen.option"  value="experienceQuestionTen.id" class="col-md-6" >{{option}} </mat-checkbox>
+                  <mat-checkbox 
+                    *ngFor="let option of experienceQuestionTen.option" 
+                     value="" 
+                     class="col-md-6" >
+                     {{option}}
+                  </mat-checkbox>
                 </div>
               </div>
              
@@ -272,7 +279,7 @@
               </p>
             </div> 
             <div>
-              <mat-checkbox >Aceptar Términos de Protección de Datos Personales (standard) </mat-checkbox>
+              <mat-checkbox formControlName="aceptTermCond" >Aceptar Términos de Protección de Datos Personales (standard) </mat-checkbox>
             </div>
             <div class="buttons-div row">
               <div class="col-md-8"></div>

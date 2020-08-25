@@ -1,6 +1,6 @@
 import { Component, OnInit,ViewChild } from '@angular/core';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {AbstractControl, FormBuilder, FormGroup, Validators,FormControl} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormGroup, Validators,FormControl, FormArray} from '@angular/forms';
 import {MatChipInputEvent} from '@angular/material/chips';
 
 
@@ -84,7 +84,6 @@ export class DiagnosisFormComponent implements OnInit {
   weaknessesChipControl = new FormControl([]);
   strengthsChipControl = new FormControl([]);
 
-
   onWeaknessesRemoved(option: string) {
     const options = this.weaknessesChipControl.value as string[];
     this.removeFirst(options, option);
@@ -135,7 +134,6 @@ export class DiagnosisFormComponent implements OnInit {
         stepper.selectedIndex = this.selectedIndex
         this.updateStep()
         console.log(this.experienceSelect)
-
         break 
       } 
       default: { 
@@ -146,6 +144,12 @@ export class DiagnosisFormComponent implements OnInit {
    }
   }
 
+  nextStep(step,stepper) {
+    this.selectedIndex = 1
+    this.selectedStep =step
+    stepper.selectedIndex = this.selectedIndex
+    this.updateStep()
+  }
 
   
   visible = true;
@@ -156,11 +160,7 @@ export class DiagnosisFormComponent implements OnInit {
 
 
   formGroup: FormGroup;
-
-  nameFormGroup: FormGroup;
-  emailFormGroup: FormGroup;
-
-
+  experienceTen : FormGroup
 
   /** Returns a FormArray with the name 'formArray'. */
   get formArray(): AbstractControl | null { return this.formGroup.get('formArray'); }
@@ -168,20 +168,47 @@ export class DiagnosisFormComponent implements OnInit {
   constructor(private _formBuilder: FormBuilder) { }
 
   ngOnInit() {
+
     this.formGroup = this._formBuilder.group({
       formArray: this._formBuilder.array([
         this._formBuilder.group({
-          workOneCtrl: ['', Validators.required],
           authorshipOne: [''],
           authorshipTwo: [''],
           authorshipThree: [''],
-        })
-      ])
-    })
+          workOneCtrl: ['', Validators.required],
+          workTwoCtrl:['', Validators.required],
+          workThreeCtrl:['',Validators.required]
+        }),
+        this._formBuilder.group({
+          experienceOne:['',Validators.required],
+          experienceTwo:['',Validators.required],
+          experienceThree:['',Validators.required],
+          experienceFour:['',Validators.required],
+          experienceSeven:[''],
+          experienceEight:[''],
+          aceptTermCond:['', Validators.required]        
+        }),
+      ]),
+    });
+
+   
+   
+    // this.nameFormGroup = this._formBuilder.group({
+    //   firstNameCtrl: ['', Validators.required],
+    //   lastNameCtrl: ['', Validators.required],
+    // });
+
+    // this.emailFormGroup = this._formBuilder.group({
+    //   emailCtrl: ['', Validators.email]
+    // });
+
 
   }
 
+
+
   onFormSubmit() {
     console.log(JSON.stringify(this.formGroup.value, null, 2))
+
   }
 }
