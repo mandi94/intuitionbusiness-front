@@ -19,9 +19,8 @@ import {MatSliderModule} from '@angular/material/slider';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatButtonToggleModule} from '@angular/material/button-toggle'; 
 import {MatAutocompleteModule} from '@angular/material/autocomplete'; 
-import {MatButtonModule} from '@angular/material/button'; 
-
-import { CdkStepperModule } from '@angular/cdk/stepper';
+import {MatButtonModule} from '@angular/material/button';
+import { HttpClientModule } from '@angular/common/http'; 
 
 
 
@@ -53,7 +52,7 @@ const matmodules=[MatFormFieldModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
     matmodules,
-    CdkStepperModule
+    HttpClientModule
     ],
   providers: [],
   bootstrap: [AppComponent]

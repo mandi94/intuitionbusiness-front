@@ -1,7 +1,8 @@
 import { Component, OnInit,ViewChild } from '@angular/core';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {AbstractControl, FormBuilder, FormGroup, Validators,FormControl, FormArray} from '@angular/forms';
-import {MatChipInputEvent} from '@angular/material/chips';
+import { HttpClient, HttpHeaderResponse, HttpHeaders } from '@angular/common/http';
+import { DiagnosisService } from 'src/app/services/diagnosis.service';
 
 
 export interface Question{
@@ -12,6 +13,20 @@ export interface Question{
   nameId:String
 }
 
+export interface Option{
+  id:String,
+  description:String
+}
+
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type':  'application/json',
+    Authorization: 'Bearer',
+    authtoken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjQ1Yzk1ZjNjODdhOTAwMTdmOTk3NmYiLCJpYXQiOjE1OTg0MDkwNTZ9.fPow2Js3E0MlSkkpCTvtxy6xQIQiLaid2wy3MzvZLqY'
+  })
+};
+
+
 @Component({
   selector: 'app-diagnosis-form',
   templateUrl: './diagnosis-form.component.html',
@@ -20,6 +35,8 @@ export interface Question{
 
 
 export class DiagnosisFormComponent implements OnInit {
+
+  apiURL = 'https://weplot-diagnosis-api.herokuapp.com'
   // Stepper work enable
   workDisabled = true;
   selectedIndex: number = 0;
@@ -144,6 +161,7 @@ export class DiagnosisFormComponent implements OnInit {
    }
   }
 
+
   nextStep(step,stepper) {
     this.selectedIndex = 1
     this.selectedStep =step
@@ -165,10 +183,9 @@ export class DiagnosisFormComponent implements OnInit {
   /** Returns a FormArray with the name 'formArray'. */
   get formArray(): AbstractControl | null { return this.formGroup.get('formArray'); }
 
-  constructor(private _formBuilder: FormBuilder) { }
+  constructor(private http: HttpClient ,private _formBuilder: FormBuilder) { }
 
   ngOnInit() {
-
     this.formGroup = this._formBuilder.group({
       formArray: this._formBuilder.array([
         this._formBuilder.group({
@@ -190,25 +207,14 @@ export class DiagnosisFormComponent implements OnInit {
         }),
       ]),
     });
-
-   
-   
-    // this.nameFormGroup = this._formBuilder.group({
-    //   firstNameCtrl: ['', Validators.required],
-    //   lastNameCtrl: ['', Validators.required],
-    // });
-
-    // this.emailFormGroup = this._formBuilder.group({
-    //   emailCtrl: ['', Validators.email]
-    // });
-
-
   }
 
 
 
   onFormSubmit() {
-    console.log(JSON.stringify(this.formGroup.value, null, 2))
-
+    //console.log(JSON.stringify(this.formGroup.value, null, 2))
+    this.http.get<any>('http://localhost:3000/questions').subscribe(data => {
+       console.log(JSON.stringify(data))
+  })
   }
 }
